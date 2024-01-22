@@ -7,13 +7,14 @@ if __name__ == "__main__":
     db = client.logs
     nginx = db.nginx
 
-    print(nginx.count_documents({}), "logs")
+    num_logs = nginx.count_documents({})
+    print(f"{num_logs} logs")
 
     methods = ["GET", "PUT", "POST", "PATCH", "DELETE"]
     print("Methods:")
     for method in methods:
         count_method = nginx.count_documents({"method": method})
-        print(f"\tmethod {method}: {count_method}")
+        print(f"    method {method}: {count_method}")
 
-    print(nginx.count_documents({"method": "GET",
-                                 "path": "/status"}), "status check")
+    num_status = nginx.count_documents({"method": "GET", "path": "/status"})
+    print(f"{num_status} status check")
