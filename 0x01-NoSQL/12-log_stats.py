@@ -8,18 +8,12 @@ if __name__ == "__main__":
     nginx = db.nginx
 
     print(nginx.count_documents({}), "logs")
-    
-    count_get = nginx.count_documents({"method": "GET"})
-    count_put = nginx.count_documents({"method": "PUT"})
-    count_post = nginx.count_documents({"method": "POST"})
-    count_patch = nginx.count_documents({"method": "PATCH"})
-    count_delete = nginx.count_documents({"method": "DELETE"})
 
-    print(f"""Methods:
-            method GET: {count_get}
-            method POST: {count_post}
-            method PUT: {count_put}
-            method PATCH: {count_patch}
-            method DELETE: {count_delete}""")
+    methods = ["GET", "PUT", "POST", "PATCH", "DELETE"]
+    print("Methods:")
+    for method in methods:
+        count_method = nginx.count_documents({"method": method})
+        print(f"\tmethod {method}: {count_method}")
 
-    print(nginx.count_documents({"path": "/status"}), "status check")
+    print(nginx.count_documents({"method": "GET",
+                                 "path": "/status"}), "status check")
