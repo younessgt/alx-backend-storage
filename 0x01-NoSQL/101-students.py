@@ -13,4 +13,4 @@ def top_students(mongo_collection):
             average_s = sum_score / len(topics)
         mongo_collection.update_one({"_id": student["_id"]},
                                     {"$set": {"averageScore": average_s}})
-    return mongo_collection.find().sort("id", -1)
+    return list(mongo_collection.find().sort("id", -1))
