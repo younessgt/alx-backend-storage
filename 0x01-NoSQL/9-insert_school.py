@@ -5,9 +5,14 @@
 def insert_school(mongo_collection, **kwargs):
     """ function that inserts a new document
     in a collection based on kwargs """
-    obj = {}
+
+    """obj = {}
     for key, value in kwargs.items():
         obj[key] = value
     mongo_collection.insert_one(obj)
     for objec in mongo_collection.find(obj):
-        return objec.get('_id')
+        return objec.get('_id')"""
+
+    """ insert return the id of the new documents """
+    obj_id = mongo_collection.insert(kwargs)
+    return obj_id
