@@ -9,9 +9,8 @@ def top_students(mongo_collection):
         topics = student.get("topics", [])
         average_s = 0
         if topics:
-            sum_score = 0
             for topic in topics:
-                sum_score += float(topic.get("score", 0))
+            sum_score = sum(float(topic.get("score", 0)) for topic in topics)
             average_s = sum_score / len(topics)
         mongo_collection.update_one({"_id": student["_id"]},
                                     {"$set": {"averageScore": average_s}})
