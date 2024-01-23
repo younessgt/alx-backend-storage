@@ -14,7 +14,7 @@ if __name__ == "__main__":
     print("Methods:")
     for method in methods:
         count_method = nginx.count_documents({"method": method})
-        print(f"    method {method}: {count_method}")
+        print(f"\tmethod {method}: {count_method}")
 
     num_status = nginx.count_documents({"method": "GET", "path": "/status"})
     print(f"{num_status} status check")
