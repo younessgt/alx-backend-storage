@@ -10,11 +10,11 @@ if __name__ == "__main__":
     num_logs = nginx.count_documents({})
     print(f"{num_logs} logs")
 
-    methods = ["GET", "PUT", "POST", "PATCH", "DELETE"]
+    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     print("Methods:")
     for method in methods:
         count_method = nginx.count_documents({"method": method})
-        print(f"    method {method}: {count_method}")
+        print(f"\tmethod {method}: {count_method}")
 
     num_status = nginx.count_documents({"method": "GET", "path": "/status"})
     print(f"{num_status} status check")
@@ -36,4 +36,4 @@ if __name__ == "__main__":
     ])
     print("IPs:")
     for lis in list_ip:
-        print(f"    {lis.get('_id')}: {lis.get('count')}")
+        print(f"\t{lis.get('_id')}: {lis.get('count')}")
