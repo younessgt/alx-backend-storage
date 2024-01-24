@@ -42,6 +42,26 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable):
+    """"""
+    r = redis.Redis()
+    inputs = r.lrange("{}:inputs".format(method.__qualname__),
+                      0, -1)
+    outputs = r.lrange("{}:outputs".format(method.__qualname__),
+                       0, -1)
+
+    paired_obj = zip(inputs, outputs)
+
+    paired_converted_list = [(key.decode("utf-8"), value.decode("utf-8"))
+                             for key, value in paired_obj]
+
+    list_length = len(paired_converted_list)
+    print(f"{method.__qualname__} was called {list_length} times:")
+
+    for key, value in paired_converted_list:
+        print(f"{method.__qualname__}(*{key}) -> {value}")
+
+
 class Cache:
     """ Cache class """
 
