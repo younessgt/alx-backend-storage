@@ -23,10 +23,13 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
+    """call_history decorator to store the history
+    of inputs and outputs for a particular function"""
     key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
+        """wrapper method"""
 
         input_par = str(args)
         output = str(method(self, *args, **kwargs))
@@ -43,7 +46,7 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable):
-    """"""
+    """function to display the history of calls of a particular function """
     r = redis.Redis()
     inputs = r.lrange("{}:inputs".format(method.__qualname__),
                       0, -1)
