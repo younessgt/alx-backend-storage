@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+""" cache and tracker script"""
 import redis
 import requests
 from typing import Callable
@@ -21,6 +21,7 @@ def count_access(method: Callable):
             return html_value.decode("utf-8")
         response_html = method(url)
         r.psetex(f"cache:{url}", 10000, response_html)
+        return response_html
     return wrapper
 
 
