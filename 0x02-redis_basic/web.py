@@ -9,7 +9,7 @@ from functools import wraps
 r = redis.Redis()
 
 
-def count_access(method: Callable):
+def count_access(method: Callable) -> Callable:
     """ counting how many time the page have being accessed"""
     @wraps(method)
     def wrapper(url):
