@@ -1,26 +1,18 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-import redis
+""" Main file """
 
 Cache = __import__('exercise').Cache
 
 cache = Cache()
 
-"""data = b"hello"
-key = cache.store(data)
-print(key)
+cache.store(b"first")
 
-local_redis = redis.Redis()
-print(local_redis.get(key))"""
+"""if we dont use wraps(method) on the exercice script 
+cache.store.__qualname__ we return the name and doc of the wrapper
+function and not the store method"""
+print(cache.get(cache.store.__qualname__))
 
-TEST_CASES = {
-    b"foo": None,
-    123: int,
-    "bar": lambda d: d.decode("utf-8")
-}
-
-for value, fn in TEST_CASES.items():
-    key = cache.store(value)
-    assert cache.get(key, fn=fn) == value
+print(cache.store.__qualname__)
+cache.store(b"second")
+cache.store(b"third")
+print(cache.get(cache.store.__qualname__))

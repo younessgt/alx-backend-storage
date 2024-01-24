@@ -3,6 +3,23 @@
 import redis
 from typing import Optional, Union, Callable, Any
 import uuid
+from functools import wraps
+
+
+def count_calls(method: Callable) -> Callable:
+    """counting how many times the method
+    has been called"""
+    key = method.__qualname__
+
+    """ we used wraps(method) to keep the original function’s name
+    docstring, etc ... see main2.py"""
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ method that perfom the incrementation"""
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+
+    return wrapper
 
 
 class Cache:
@@ -13,6 +30,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """storind data to redis and returning the key"""
         u_id = str(uuid.uuid4())
